@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://img.icons8.com/?size=100&id=1340&format=png" type="image/png">
+    <title>VM Configuration</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            padding-bottom: 50px;
+        }
+        #banner {
+            background-color: #e9e9e9;
+            color: rgb(0, 0, 0);
+            padding: 10px;
+            text-align: center;
+        }
+        .logo-img {
+        width: 40px;
+        margin-right: 20px;
+        }
+        .header {
+        background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <!-- Banner -->
+    <header class="header p-3 d-flex justify-content-between align-items-center border-bottom">
+        <div class="d-flex align-items-center h4 mb-0">
+          <img src="{{ url_for('static', filename='kdata-logo.webp') }}" alt="Logo" class="logo-img">
+          <span>VM Clone</span>
+        </div>
+        <div>
+            <span>👤 Login as: {{ session['username'] }}@{{ session['vcenter_host'] }}</span>
+            <a href="{{ url_for('index') }}" class="btn btn-sm btn-outline-secondary ms-2">🏠 Home</a>
+            <a href="{{ url_for('clone.clone') }}" class="btn btn-sm btn-outline-secondary ms-2"> <i class="bi bi-layers"></i> Clone VM</a>
+            <a href="{{ url_for('clone_v2.clone_v2') }}" class="btn btn-sm btn-outline-secondary ms-2"><i class="bi bi-layers-half"></i> Clone VM (v2)</a>
+            <a href="{{ url_for('view_logs') }}" class="btn btn-sm btn-outline-secondary ms-2">📜 View Logs</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-sm btn-outline-secondary ms-2">👋 Sign Out</a>
+        </div>
+      </header>
+    <!-- Resource Table -->
+    <div class="container mt-3">
+        <h4>Available Resources on Hosts</h4>
+        <table class="table table-striped" id="resourceTable">
+            <thead>
+                <tr>
+                    <th>Host</th>
+                    <th>Cluster</th>
+                    <th>Available CPU (GHz)</th>
+                    <th>Available RAM (GB)</th>
+                    <th>Available Disk (GB)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    
+        <h4>Available Resource Pools</h4>
+        <table class="table table-striped" id="poolTable">
+            <thead>
+                <tr>
+                    <th>Cluster</th>
+                    <th>Resource Pool</th>
+                    <th>Available CPU (GHz)</th>
+                    <th>Available RAM (GB)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    
+    
+    <div id="alertBox" class="position-fixed top-0 end-0 p-3" style="z-index: 1050; max-width: 300px;"></div>
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Input Form -->
+            <div class="col-md-6">
+                <h3>VM Configuration</h3>
+                <form id="vmForm">
+                    <div class="mb-3">
+                        <label for="NameVM" class="form-label">VM Name (No space allowed)</label>
+                        <input type="text" class="form-control" id="NameVM" name="NameVM" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="SourceVM" class="form-label">Source VM</label>
+                        <input type="text" class="form-control" id="SourceVM" name="SourceVM" list="vmOptions" placeholder="Select or enter VM name" required>
+                        <datalist id="vmOptions">
+                          <option value="Z-Template-Ubuntu22">
+                          <option value="Z-Template-CentOS-8">
+                          <option value="datnd-Template-Ubuntu">
+                          <option value="thucnk-Template-Ubuntu">
+                        </datalist>
+                      </div>                      
+                    <input type="text" class="form-control d-none" id="customVMInput" name="SourceVM_custom" placeholder="Enter custom VM name">
+                    <div class="mb-3">
+                        <label for="Count" class="form-label">Count</label>
+                        <input type="number" class="form-control" id="Count" name="Count" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="CPU" class="form-label">CPU</label>
+                        <input type="number" class="form-control" id="CPU" name="CPU" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="RAM" class="form-label">RAM (GB)</label>
+                        <input type="number" class="form-control" id="RAM" name="RAM" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Disk" class="form-label">Disk (GB)</label>
+                        <input type="number" class="form-control" id="Disk" name="Disk" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Datastore" class="form-label">Datastore</label>
+                        <input type="text" class="form-control" id="Datastore" name="Datastore" value="datastore1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Network" class="form-label">Network</label>
+                        <input type="text" class="form-control" id="Network" name="Network" value="VM Network" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="IPList" class="form-label d-flex align-items-center">
+                            IP List (comma-separated)
+                            <a href="http://192.168.10.40:30000" target="_blank" class="ms-2" title="View Lab IP" 
+                            style="display: inline-block; text-decoration: none; padding: 2px 8px; border: 1px solid #ccc; border-radius: 6px; background-color: #f1f1f1; font-weight: bold; font-size: 1rem; color: #333;">
+                            IP Dashboard
+                            </a>
+                        </label>
+                    
+                        <!-- Login User Info -->
+                        <div style="margin: 6px 0; font-style: italic; color: #555;">
+                            Your login user is: <strong>{{ session['username'].split('@')[0] }}</strong>
+                        </div>
+                    
+                        <!-- IP Input Box -->
+                        <input type="text" class="form-control" id="IPList" name="IPList" value="192.168.10." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="DNS" class="form-label">DNS (comma-separated)</label>
+                        <input type="text" class="form-control" id="DNS" name="DNS" value="8.8.8.8,1.1.1.1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="SubnetMask" class="form-label">Subnet Mask</label>
+                        <input type="text" class="form-control" id="SubnetMask" name="SubnetMask" value="255.255.255.0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Gateway" class="form-label">Gateway</label>
+                        <input type="text" class="form-control" id="Gateway" name="Gateway" value="192.168.10.1" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="addVM">Add VM</button>
+                    <button type="button" class="btn btn-success" id="finalizeButton">Finalize</button>
+                    <button type="button" class="btn btn-danger" id="deleteAllButton">Delete All</button>
+                    <button type="button" class="btn btn-warning" id="runButton" style="display: none;">Run</button>
+                </form>
+            </div>
+
+
+        <!-- VM List -->
+        <div class="col-md-6">
+            <h3>Configured VMs</h3>
+            <table class="table" id="vmTable">
+                <thead>
+                    <tr>
+                        <th>VM Name</th>
+                        <th>Count</th>
+                        <th>CPU/RAM/Disk</th>
+                        <th>IP Address</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- Live Log Display -->
+        <div class="container mt-4" id="progressContainer" style="display: none;">
+            <h4>🚀 Deployment Progress</h4>
+            <h5>Please do not reload or close the window in the deployment progress</h5>
+            <div class="border p-3 bg-light" style="height: 300px; overflow-y: scroll;" id="progressLog"></div>
+        </div>
+
+        <!-- Finalized VM Specs -->
+        <div class="row mt-5" id="finalizedSpecsSection" style="display: none;">
+            <div class="col-md-12">
+                <h3>Finalized VM Specifications</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>VM Name</th>
+                            <th>CPU/RAM/Disk</th>
+                            <th>Network</th>
+                            <th>Datastore</th>
+                            <th>IP Address</th>
+                        </tr>
+                    </thead>
+                    <tbody id="finalizedSpecsTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <p class="text-muted text-center mt-3" style="font-size: 0.9em;">
+        Developing by <strong>@dvt</strong> in 2025. Current Version <strong>1.5</strong>
+    </p>
+
+    <script>
+        let timeout;
+
+        function resetTimer() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                alert("⚠️ Session expired due to inactivity.");
+                window.location.href = "/logout";
+            }, 15 * 60 * 1000); // 15 minutes in milliseconds
+        }
+
+        // Reset timer on activity
+        window.onload = resetTimer;
+        document.onmousemove = resetTimer;
+        document.onkeypress = resetTimer;
+        document.onscroll = resetTimer;
+        document.onclick = resetTimer;
+
+        $(document).ready(function () {
+            // ------------------------------
+            // Utility: Show Alert Message
+            // ------------------------------
+            function showAlert(message, type = "info") {
+                const alertId = `alert-${Date.now()}`;
+                const alertHtml = `
+                    <div id="${alertId}" class="alert alert-${type} alert-dismissible fade show mb-2" role="alert">
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+                $('#alertBox').append(alertHtml);
+                setTimeout(() => $(`#${alertId}`).alert('close'), 5000);
+            }
+    
+            // ------------------------------
+            // Fetch Host & Pool Resources
+            // ------------------------------
+            function fetchHostResources() {
+                $.get('/clone/get_host_resources', function (data) {
+                    const hostTableBody = $('#resourceTable tbody').empty();
+                    const poolTableBody = $('#poolTable tbody').empty();
+    
+                    // Hosts
+                    if (data.error) {
+                        hostTableBody.append(`<tr><td colspan="5" class="text-danger text-center">${data.error}</td></tr>`);
+                    } else if (!data.hosts?.length) {
+                        hostTableBody.append(`<tr><td colspan="5" class="text-center">No host data available.</td></tr>`);
+                    } else {
+                        data.hosts.forEach(host => {
+                            hostTableBody.append(`
+                                <tr>
+                                    <td>${host.Host}</td>
+                                    <td>${host.Cluster}</td>
+                                    <td>${host['Available CPU (GHz)']}</td>
+                                    <td>${host['Available RAM (GB)']}</td>
+                                    <td>${host['Available Disk (GB)']}</td>
+                                </tr>`);
+                        });
+                    }
+    
+                    // Pools
+                    if (!data.pools?.length) {
+                        poolTableBody.append(`<tr><td colspan="4" class="text-center">No resource pool data available.</td></tr>`);
+                    } else {
+                        data.pools.forEach(pool => {
+                            poolTableBody.append(`
+                                <tr>
+                                    <td>${pool.Cluster}</td>
+                                    <td>${pool['Resource Pool']}</td>
+                                    <td>${pool['Available CPU (GHz)'] ?? 'N/A'}</td>
+                                    <td>${pool['Available RAM (GB)'] ?? 'N/A'}</td>
+                                </tr>`);
+                        });
+                    }
+                }).fail(() => {
+                    $('#resourceTable tbody').html(`<tr><td colspan="5" class="text-danger text-center">Failed to fetch host resources.</td></tr>`);
+                    $('#poolTable tbody').html(`<tr><td colspan="4" class="text-danger text-center">Failed to fetch resource pools.</td></tr>`);
+                });
+            }
+    
+            // ------------------------------
+            // Refresh VM Configuration Table
+            // ------------------------------
+            function refreshVMTable() {
+                $.get('/clone/get_configured_vms', function (data) {
+                    const tableBody = $('#vmTable tbody').empty();
+    
+                    data.forEach((vm, index) => {
+                        tableBody.append(`
+                            <tr>
+                                <td>${vm.NameVM}</td>
+                                <td>${vm.Count}</td>
+                                <td>${vm.CPU}/${vm.RAM}/${vm.Disk}</td>
+                                <td>${vm.IPList.join(', ')}</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm remove-vm" data-index="${index}">Remove</button>
+                                </td>
+                            </tr>`);
+                    });
+    
+                    $('.remove-vm').click(function () {
+                        const vmIndex = $(this).data('index');
+                        $.post(`/clone/remove_vm/${vmIndex}`, function (response) {
+                            showAlert(response.message, "success");
+                            refreshVMTable();
+                        }).fail(() => {
+                            showAlert('Failed to remove VM. Please try again.', "danger");
+                        });
+                    });
+                });
+            }
+    
+            // ------------------------------
+            // Refresh Finalized VM Specs Table
+            // ------------------------------
+            function refreshFinalizedVMTable() {
+                $.get('/clone/get_finalized_vms', function (data) {
+                    const tableBody = $('#finalizedSpecsTable').empty();
+                    data.forEach(vm => {
+                        tableBody.append(`
+                            <tr>
+                                <td>${vm.NameVM}</td>
+                                <td>${vm.CPU}/${vm.RAM}/${vm.Disk}</td>
+                                <td>${vm.Network}</td>
+                                <td>${vm.Datastore}</td>
+                                <td>${vm.IP}</td>
+                            </tr>`);
+                    });
+                });
+            }
+    
+            // ------------------------------
+            // Add VM Button Handler
+            // ------------------------------
+            $('#addVM').click(function () {
+                const formData = $('#vmForm').serialize();
+                $.post('/clone/submit', formData, function (response) {
+                    showAlert(response.message, "success");
+                    refreshVMTable();
+                }).fail(() => {
+                    showAlert('Failed to add VM. Please try again.', "danger");
+                });
+            });
+    
+            // ------------------------------
+            // Finalize Button Handler
+            // ------------------------------
+            $('#finalizeButton').click(function () {
+                $.post('/clone/finalize', function (response) {
+                    showAlert(response.message, "success");
+                    refreshFinalizedVMTable();
+                    $('#finalizedSpecsSection').show();
+                    $('#runButton').show();
+                }).fail(() => {
+                    showAlert('Failed to finalize VMs. Please try again.', "danger");
+                });
+            });
+    
+            // ------------------------------
+            // Run Button Handler
+            // ------------------------------
+            $('#runButton').click(function () {
+                if (!confirm('Are you sure you want to run the creation process?')) return;
+    
+                $('#progressLog').empty();
+                $('#progressContainer').show();
+    
+                const eventSource = new EventSource('/clone/create');
+    
+                eventSource.addEventListener("status", (event) => {
+                    appendToLog(event.data, "info");
+                });
+    
+                eventSource.addEventListener("error", (event) => {
+                    appendToLog(event.data, "warning");
+                });
+    
+                eventSource.addEventListener("done", () => {
+                    appendToLog("✅ Deployment complete.", "success");
+                    eventSource.close();
+                });
+    
+                eventSource.onerror = () => {
+                    appendToLog("⚠️ Connection lost or deployment finished.", "warning");
+                    eventSource.close();
+                };
+            });
+    
+            function appendToLog(message, type = "info") {
+                const logLine = $('<div>').text(message);
+                if (type === "warning") logLine.css("color", "orange");
+                if (type === "success") logLine.css("color", "green");
+                if (type === "error") logLine.css("color", "red");
+                $('#progressLog').append(logLine);
+                $('#progressLog').scrollTop($('#progressLog')[0].scrollHeight);
+            }
+    
+            // ------------------------------
+            // Delete All Button Handler
+            // ------------------------------
+            $('#deleteAllButton').click(function () {
+                $.post('/clone/clear_all', function (response) {
+                    showAlert(response.message, "success");
+                    refreshVMTable();
+                    $('#finalizedSpecsTable').empty();
+                    $('#finalizedSpecsSection').hide();
+                    $('#runButton').hide();
+                }).fail(() => {
+                    showAlert('Failed to clear configurations. Please try again.', "danger");
+                });
+            });
+    
+            // ------------------------------
+            // Initial Load
+            // ------------------------------
+            refreshVMTable();
+            refreshFinalizedVMTable();
+            fetchHostResources();
+        });
+    </script>
+    
+
+</body>
+</html>

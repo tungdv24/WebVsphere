@@ -1,0 +1,184 @@
+[
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-clone-1",
+        "status": "\u2705 Success",
+        "timestamp": "2025-04-24 08:39:45"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-clone-2",
+        "status": "\u274c Failed",
+        "timestamp": "2025-04-24 08:39:45",
+        "error": "Task failed: Unknown error"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-clone-1",
+        "status": "\u2705 Success",
+        "timestamp": "2025-04-24 08:49:55"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-VM",
+        "status": "\u2705 Success",
+        "timestamp": "2025-04-28 02:11:20"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "datnd-gitlab-server",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-05 04:35:14"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Test-Zabbix",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-05 07:45:43"
+    },
+    {
+        "user": "thucnk@lapbd.lab@192.168.10.166",
+        "vm_name": "thucnk-Ubuntu-New",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-05 08:11:58"
+    },
+    {
+        "user": "datnd@lapbd.lab@192.168.10.166",
+        "vm_name": "datnd-Test1",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-06 09:32:17"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Racktables",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-08 07:06:22"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-TestClone-Cent",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-09 10:21:46"
+    },
+    {
+        "user": "lab1@lapbd.lab@192.168.10.166",
+        "vm_name": "datnd-clone-vm",
+        "status": "\u274c Failed",
+        "timestamp": "2025-05-10 03:12:03",
+        "error": "Unknown error during cloning"
+    },
+    {
+        "user": "lab1@lapbd.lab@192.168.10.166",
+        "vm_name": "datnd-clone-vm",
+        "status": "\u274c Failed",
+        "timestamp": "2025-05-10 03:12:39",
+        "error": "Unknown error during cloning"
+    },
+    {
+        "user": "datnd@lapbd.lab@192.168.10.166",
+        "vm_name": "datnd-clone-vm",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-10 03:17:30"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Prox",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-12 01:51:33"
+    },
+    {
+        "user": "khanhpt@lapbd.lab@192.168.10.166",
+        "vm_name": "Test",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-12 07:49:29"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Cent8.5",
+        "status": "\u274c Failed",
+        "timestamp": "2025-05-13 03:41:36",
+        "error": "(vim.fault.NotAuthenticated) {\n   dynamicType = <unset>,\n   dynamicProperty = (vmodl.DynamicProperty) [],\n   msg = 'The session is not authenticated.',\n   faultCause = <unset>,\n   faultMessage = (vmodl.LocalizableMessage) [],\n   object = 'vim.Folder:group-d1',\n   privilegeId = 'System.View',\n   missingPrivileges = (vim.fault.NoPermission.EntityPrivileges) []\n}"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Cent8.5",
+        "status": "\u274c Failed",
+        "timestamp": "2025-05-13 03:41:47",
+        "error": "(vim.fault.NotAuthenticated) {\n   dynamicType = <unset>,\n   dynamicProperty = (vmodl.DynamicProperty) [],\n   msg = 'The session is not authenticated.',\n   faultCause = <unset>,\n   faultMessage = (vmodl.LocalizableMessage) [],\n   object = 'vim.Folder:group-d1',\n   privilegeId = 'System.View',\n   missingPrivileges = (vim.fault.NoPermission.EntityPrivileges) []\n}"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Cent8.5",
+        "status": "\u274c Failed",
+        "timestamp": "2025-05-13 03:42:26",
+        "error": "Unknown error during cloning"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Cent8.5",
+        "status": "\u274c Failed",
+        "timestamp": "2025-05-13 03:46:11",
+        "error": "Unknown error during cloning"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Cent8.5",
+        "status": "\u274c Failed",
+        "timestamp": "2025-05-13 03:49:35",
+        "error": "Unknown error during cloning"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-CentOS8",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-13 03:57:23"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tung-Conan",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-16 16:34:16"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Tester",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-19 10:29:43"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Clone-Test",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-19 10:40:41"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Clone-Test",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-19 10:50:46"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Tester",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-19 10:51:32"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Zabbix-Test",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-19 11:02:44"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-RocketChat",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-23 04:53:36"
+    },
+    {
+        "user": "tungdv@lapbd.lab@192.168.10.166",
+        "vm_name": "tungdv-Cent9",
+        "status": "\u2705 Success",
+        "timestamp": "2025-05-29 03:46:19"
+    }
+]

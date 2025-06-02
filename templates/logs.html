@@ -1,0 +1,224 @@
+<!-- templates/logs.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VM Deployment Logs</title>
+  <link rel="icon" href="   https://cdn-icons-png.flaticon.com/512/1960/1960242.png  " type="image/png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+  <style>
+    .search-input {
+      max-width: 300px;
+      margin-bottom: 10px;
+    }
+    .logo-img {
+      width: 40px;
+      margin-right: 20px;
+    }
+    .header {
+      background-color: #e9ecef;
+    }
+  </style>
+</head>
+<body class="bg-light">
+    <!-- Banner -->
+    <header class="header p-3 d-flex justify-content-between align-items-center border-bottom">
+        <div class="d-flex align-items-center h4 mb-0">
+          <img href="{{ url_for('index') }}" src="{{ url_for('static', filename='kdata-logo.webp') }}" alt="Logo" class="logo-img">
+          <span>VM Logs</span>
+        </div>
+        <div>
+          <span>👤 Login as: {{ session['username'] }}@{{ session['vcenter_host'] }}</span>
+          <a href="{{ url_for('index') }}" class="btn btn-sm btn-outline-secondary ms-2">🏠 Home</a>
+          <a href="{{ url_for('clone.clone') }}" class="btn btn-sm btn-outline-secondary ms-2"> <i class="bi bi-layers"></i> Clone VM</a>
+          <a href="{{ url_for('clone_v2.clone_v2') }}" class="btn btn-sm btn-outline-secondary ms-2"><i class="bi bi-layers-half"></i> Clone VM (v2)</a>
+          <a href="{{ url_for('view_logs') }}" class="btn btn-sm btn-outline-secondary ms-2">📜 View Logs</a>
+          <a href="{{ url_for('logout') }}" class="btn btn-sm btn-outline-secondary ms-2">👋 Sign Out</a>
+      </div>
+      </header>
+  <div class="container py-4">
+    <h2 class="mb-4">📜 VM Deployment Logs</h2>
+
+    <!-- Search for Deployment Logs -->
+    <input type="text" class="form-control search-input" id="search-deployment" placeholder="🔍 Search Deployment Logs..." onkeyup="searchTable('deployment')">
+
+    <table class="table table-striped table-bordered shadow-sm">
+      <thead class="table-dark">
+        <tr>
+          <th>User@Host</th>
+          <th>VM Name</th>
+          <th>Status</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody id="deployment-table">
+        {% for log in logs %}
+        <tr class="deployment-row {% if loop.index > 5 %}d-none extra-deployment{% endif %}">
+          <td>{{ log.user }}</td>
+          <td>{{ log.vm_name }}</td>
+          <td>
+            {% if log.status == "✅ Success" %}
+              <span class="text-success">{{ log.status }}</span>
+            {% elif log.status == "❌ Failed" %}
+              <span class="text-danger">{{ log.status }}</span>
+            {% else %}
+              {{ log.status }}
+            {% endif %}
+          </td>
+          <td>{{ log.timestamp }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        {% if logs|length > 5 %}
+        <tr>
+          <td colspan="4">
+            <button class="btn btn-sm btn-outline-primary" onclick="toggleExtra('deployment')">Show All</button>
+          </td>
+        </tr>
+        {% endif %}
+      </tfoot>
+    </table>
+
+    <h2>⚙️ System Logs</h2>
+    <input type="text" class="form-control search-input" id="search-system" placeholder="🔍 Search System Logs..." onkeyup="searchTable('system')">
+
+    <table class="table table-bordered table-hover mt-3">
+      <thead class="table-light">
+        <tr>
+          <th>User</th>
+          <th>vCenter Host</th>
+          <th>VM Name</th>
+          <th>Action</th>
+          <th>Status</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody id="system-table">
+        {% for log in system_logs %}
+        <tr class="system-row {% if loop.index > 5 %}d-none extra-system{% endif %}">
+          <td>{{ log.username }}</td>
+          <td>{{ log.vcenter_host }}</td>
+          <td>{{ log.vm_name }}</td>
+          <td>{{ log.action }}</td>
+          <td>{{ log.status }}</td>
+          <td>{{ log.timestamp }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        {% if system_logs|length > 5 %}
+        <tr>
+          <td colspan="6">
+            <button class="btn btn-sm btn-outline-primary" onclick="toggleExtra('system')">Show All</button>
+          </td>
+        </tr>
+        {% endif %}
+      </tfoot>
+    </table>
+
+    <h2>❌ Recent Errors</h2>
+    <input type="text" class="form-control search-input" id="search-errors" placeholder="🔍 Search Errors..." onkeyup="searchTable('errors')">
+
+    <table class="table table-bordered table-hover mt-3">
+      <thead class="table-danger">
+        <tr>
+          <th>User</th>
+          <th>Error Message</th>
+          <th>Context</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody id="errors-table">
+        {% for err in recent_errors %}
+        <tr class="errors-row {% if loop.index > 5 %}d-none extra-errors{% endif %}">
+          <td>{{ err.user }}</td>
+          <td>{{ err.error }}</td>
+          <td>{{ err.context }}</td>
+          <td>{{ err.timestamp }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        {% if recent_errors|length > 5 %}
+        <tr>
+          <td colspan="4">
+            <button class="btn btn-sm btn-outline-primary" onclick="toggleExtra('errors')">Show All</button>
+          </td>
+        </tr>
+        {% endif %}
+      </tfoot>
+    </table>
+  </div>
+  <p class="text-muted text-center mt-3" style="font-size: 0.9em;">
+    Developing by <strong>@dvt</strong> in 2025. Current Version <strong>1.5</strong>
+  </p>
+  
+
+  <script>
+    let timeout;
+
+    function resetTimer() {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            alert("⚠️ Session expired due to inactivity.");
+            window.location.href = "/logout";
+        }, 15 * 60 * 1000); // 15 minutes in milliseconds
+    }
+
+    // Reset timer on activity
+    window.onload = resetTimer;
+    document.onmousemove = resetTimer;
+    document.onkeypress = resetTimer;
+    document.onscroll = resetTimer;
+    document.onclick = resetTimer;
+
+    // searchTable function
+    function searchTable(section) {
+      const inputId = {
+        deployment: 'search-deployment',
+        system: 'search-system',
+        errors: 'search-errors'
+      }[section];
+
+      const tableId = {
+        deployment: 'deployment-table',
+        system: 'system-table',
+        errors: 'errors-table'
+      }[section];
+
+      const filter = document.getElementById(inputId).value.toLowerCase();
+      const rows = document.getElementById(tableId).getElementsByTagName('tr');
+      let visibleCount = 0;
+
+      Array.from(rows).forEach((row, index) => {
+        const text = row.innerText.toLowerCase();
+        const isMatch = text.includes(filter);
+
+        if (filter === '') {
+          // Default: Show only first 5 rows
+          row.classList.toggle('d-none', index >= 5);
+        } else {
+          // Show all matches during search
+          row.classList.toggle('d-none', !isMatch);
+          if (isMatch) visibleCount++;
+        }
+      });
+    }
+    function toggleExtra(section) {
+    const rows = document.querySelectorAll(`.extra-${section}`);
+    const button = event.target;
+
+    rows.forEach(row => row.classList.toggle('d-none'));
+
+    if (button.innerText === 'Show All') {
+      button.innerText = 'Show Less';
+    } else {
+      button.innerText = 'Show All';
+    }
+  }
+  </script>
+</body>
+</html>

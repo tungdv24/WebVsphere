@@ -1,0 +1,104 @@
+<div id="vm-details-content">
+{% if vm %}
+    <h2 style="display: flex; align-items: center; gap: 10px;">
+        VM Details: <span id="vm-name">{{ vm.name }}</span>
+        <button1 onclick="refreshVMDetails('{{ vm.moid }}')" 
+            style="padding: 8px 10px; font-size: 16px; border: none; border-radius: 50%; background-color: #d8d8d8; cursor: pointer; transition: background-color 0.2s;">
+            <i class="fas fa-sync-alt"></i>
+        </button1>
+    </h2>
+
+    
+
+ <!-- 🔘 ACTION BUTTONS -->
+ <div style="text-align: center; margin-bottom: 20px;">
+    <form method="POST" action="/action/{{ vm.moid }}" style="display: inline-block;">
+        <input type="hidden" name="moid" value="{{ vm.moid }}">
+        <button type="submit" name="action" value="start">Start</button>
+        <button type="submit" name="action" value="stop">Stop</button>
+        <button type="submit" name="action" value="reboot">Reboot</button>
+        <button type="submit" name="action" value="snapshot">Take Snapshot</button>
+        <button type="button" onclick="confirmDeleteVM('{{ vm.moid }}')">Delete</button>
+    </form>
+    <button onclick="openSnapshotManager('{{ vm.moid }}')">Manage Snapshots</button>
+</div>
+
+<!-- ⚙️ MAIN CONTENT SPLIT -->
+<div style="display: flex; gap: 40px;">
+
+<!-- 📊 LEFT: 2/3 width - Grafana Panels -->
+<div style="flex: 3;">
+    {% if vm.power_state == 'poweredOn' %}
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <!-- Main Panel (auto-refresh) -->
+            <iframe id="grafana-iframe"
+                src="http://192.168.10.140:3000/d-solo/hNDB_E0ik/vmware-vsphere-vms?orgId=1&panelId=28&var-virtualmachine={{ embeded_name }}&var-vcenter=$__all&var-clustername=$__all&var-esxi=$__all&var-datastore=$__all&from=now-1m&to=now&timezone=browser"
+                width="100%" height="350" frameborder="0"></iframe>
+
+            <!-- Other Panels -->
+            <iframe id="grafana-iframe"
+                src="http://192.168.10.140:3000/d-solo/hNDB_E0ik/vmware-vsphere-vms?orgId=1&panelId=93&var-virtualmachine={{ embeded_name }}&from=now-5m&to=now&timezone=browser"
+                width="100%" height="350" frameborder="0"></iframe>
+
+            <iframe id="grafana-iframe"
+                src="http://192.168.10.140:3000/d-solo/hNDB_E0ik/vmware-vsphere-vms?orgId=1&panelId=97&var-virtualmachine={{ embeded_name }}&from=now-5m&to=now&timezone=browser"
+                width="100%" height="350" frameborder="0"></iframe>
+
+            <iframe id="grafana-iframe"
+                src="http://192.168.10.140:3000/d-solo/hNDB_E0ik/vmware-vsphere-vms?orgId=1&panelId=98&var-virtualmachine={{ embeded_name }}&from=now-5m&to=now&timezone=browser"
+                width="100%" height="350" frameborder="0"></iframe>
+
+            <iframe id="grafana-iframe"
+                src="http://192.168.10.140:3000/d-solo/hNDB_E0ik/vmware-vsphere-vms?orgId=1&panelId=99&var-virtualmachine={{ embeded_name }}&from=now-5m&to=now&timezone=browser"
+                width="205%" height="350" frameborder="0"></iframe>
+        </div>
+    {% else %}
+        <p style="padding: 20px; font-style: italic; color: gray;">Live metrics not available (VM is powered off)</p>
+    {% endif %}
+</div>
+
+
+    <!-- 🧾 RIGHT: 1/3 width - VM Details -->
+    <div style="flex: 1;">
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+            <div class="info-box"><strong>Power State:</strong> {{ vm.power_state }}</div>
+            <div class="info-box"><strong>Guest OS:</strong> {{ vm.guest_os }}</div>
+            <div class="info-box"><strong>IP Address:</strong> {{ vm.ip_address or 'N/A' }}</div>
+            <div class="info-box"><strong>CPU:</strong> {{ vm.num_cpu }}</div>
+            <div class="info-box"><strong>Memory:</strong> {{ (vm.memory_mb / 1024) | round(2) }} GB</div>
+            <div class="info-box"><strong>Disk Size:</strong> {{ vm.disk_size_gb or 'N/A' }} GB</div>
+            <div class="info-box"><strong>Cluster:</strong> {{ vm.cluster or 'N/A' }}</div>
+            <div class="info-box"><strong>Host:</strong> {{ vm.host or 'N/A' }}</div>
+            <div class="info-box"><strong>Networks:</strong>
+                {% if vm.networks %}
+                    {{ vm.networks | join(', ') }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </div>
+            <div class="info-box"><strong>Datastores:</strong>
+                {% if vm.datastores %}
+                    {{ vm.datastores | join(', ') }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </div>
+            <div class="info-box"><strong>Resource Pool:</strong> {{ vm.resource_pool or 'N/A' }}</div>
+        </div>
+    </div>
+</div>
+<!-- 📸 Snapshot Modal -->
+<div id="snapshotModal" style="display: none; position: fixed; top: 10%; left: 50%; transform: translateX(-50%); width: 400px; background: white; border: 1px solid #ccc; padding: 20px; z-index: 9999;">
+    <h3>📸 Manage Snapshots</h3>
+    <ul id="snapshotList" style="max-height: 300px; overflow-y: auto; list-style: none; padding-left: 0;"></ul>
+    <button onclick="closeSnapshotModal()">Close</button>
+</div>
+<div id="modalOverlay" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 9998;" onclick="closeSnapshotModal()"></div>
+
+<!-- 🔁 Auto-refresh main panel -->
+
+
+
+{% else %}
+    <p>VM Not Found</p>
+{% endif %}

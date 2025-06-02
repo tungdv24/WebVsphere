@@ -1,0 +1,378 @@
+[
+  {
+    "timestamp": "2025-05-30 09:04:27",
+    "username": "datnd@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-master-node",
+    "action": "start",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-30 09:03:23",
+    "username": "datnd@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-worker-node-2",
+    "action": "reboot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-30 09:03:19",
+    "username": "datnd@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-workernode-3",
+    "action": "reboot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-30 09:03:15",
+    "username": "datnd@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-worker-node-4",
+    "action": "reboot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-30 09:03:03",
+    "username": "datnd@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-master-node",
+    "action": "stop",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-23 04:55:38",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-RocketChat",
+    "action": "snapshot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-15 01:56:36",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "Z-Template-Ubuntu22-2nics",
+    "action": "snapshot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-15 01:56:29",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "Z-Template-Ubuntu22-2nics",
+    "action": "stop",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-15 01:56:25",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "Z-Template-Ubuntu22-2nics",
+    "action": "start",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 07:54:39",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "thucnk-Template-Ubuntu",
+    "action": "stop",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 07:54:30",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-Template-Ubuntu",
+    "action": "stop",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 07:54:19",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-Template-Ubuntu",
+    "action": "start",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 07:46:15",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-CentOS8",
+    "action": "snapshot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 07:46:04",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-CentOS8",
+    "action": "reboot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 07:45:50",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-CentOS8",
+    "action": "start",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 07:36:57",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-CentOS8",
+    "action": "start",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 07:29:07",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-CentOS8",
+    "action": "start",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 07:29:03",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-CentOS8",
+    "action": "start",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 07:28:56",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-CentOS8",
+    "action": "snapshot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 07:28:52",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-CentOS8",
+    "action": "snapshot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 07:21:46",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-CentOS8",
+    "action": "snapshot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 03:54:22",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-Cent8.5",
+    "action": "delete",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 03:54:11",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-Cent8.5",
+    "action": "stop",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 03:53:49",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "Test",
+    "action": "delete",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-13 03:53:45",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "Test",
+    "action": "stop",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-12 02:05:02",
+    "username": "datnd@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-clone-vm",
+    "action": "delete",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-12 02:04:56",
+    "username": "datnd@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-clone-vm",
+    "action": "stop",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-12 02:04:49",
+    "username": "datnd@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-clone-vm",
+    "action": "delete",
+    "status": "Failed - VM not powered off"
+  },
+  {
+    "timestamp": "2025-05-12 01:49:49",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-TestClone-Cent",
+    "action": "delete",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-12 01:47:44",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-TestClone-Cent",
+    "action": "stop",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-08 07:04:52",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-Test-Zabbix",
+    "action": "delete",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-08 07:04:20",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-Test-Zabbix",
+    "action": "stop",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-06 09:33:43",
+    "username": "datnd@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-Test1",
+    "action": "delete",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-06 09:33:38",
+    "username": "datnd@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-Test1",
+    "action": "stop",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-05-05 08:07:17",
+    "username": "thucnk@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "thucnk-Ubuntu2",
+    "action": "delete",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-04-25 07:45:18",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-Clone-1",
+    "action": "snapshot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-04-25 07:43:56",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-Clone-1",
+    "action": "snapshot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-04-25 07:43:47",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-Clone-1",
+    "action": "snapshot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-04-25 07:43:37",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-Clone-1",
+    "action": "start",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-04-25 07:40:59",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-Clone-1",
+    "action": "snapshot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-04-25 07:39:52",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "Z-Template-Ubuntu22",
+    "action": "snapshot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-04-22 10:26:00",
+    "username": "lab1@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "vm-14093",
+    "action": "stop",
+    "status": "Failed - VM not found"
+  },
+  {
+    "timestamp": "2025-04-22 10:25:47",
+    "username": "lab1@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-Template-Ubuntu",
+    "action": "delete",
+    "status": "Failed - (vim.fault.NoPermission) {\n   dynamicType = <unset>,\n   dynamicProperty = (vmodl.DynamicProperty) [],\n   msg = 'Permission to perform this operation was denied.',\n   faultCause = <unset>,\n   faultMessage = (vmodl.LocalizableMessage) [],\n   object = 'vim.Datacenter:datacenter-3',\n   privilegeId = 'System.Read',\n   missingPrivileges = (vim.fault.NoPermission.EntityPrivileges) []\n}"
+  },
+  {
+    "timestamp": "2025-04-22 10:24:38",
+    "username": "lab1@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-Template-Ubuntu",
+    "action": "stop",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-04-22 10:23:33",
+    "username": "lab1@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "datnd-Template-Ubuntu",
+    "action": "start",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-04-22 16:38:33",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "tungdv-CLone",
+    "action": "reboot",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2025-04-17 09:41:17",
+    "username": "tungdv@lapbd.lab",
+    "vcenter_host": "192.168.10.166",
+    "vm_name": "thucnk-Ubuntu2",
+    "action": "start",
+    "status": "Success"
+  }
+]

@@ -1,0 +1,189 @@
+from flask import Blueprint, render_template, jsonify, request, session
+import os
+import json
+import subprocess
+from pyVmomi import vim
+from pyVim.connect import Disconnect
+from vsphere_session import connect_vsphere_from_session
+from flask import Blueprint, jsonify, session
+from deploy import deploy_vms_from_config
+
+clone_bp = Blueprint('clone', __name__)
+
+def fetch_host_resources(service_instance):
+    content = service_instance.RetrieveContent()
+    host_data = []
+    for datacenter in content.rootFolder.childEntity:
+        if hasattr(datacenter, 'hostFolder'):
+            clusters = datacenter.hostFolder.childEntity
+            for cluster in clusters:
+                if isinstance(cluster, vim.ClusterComputeResource):
+                    for host in cluster.host:
+                        summary = host.summary
+                        hardware = summary.hardware
+                        quick_stats = summary.quickStats
+
+                        total_cpu_ghz = hardware.cpuMhz * hardware.numCpuCores / 1000
+                        used_cpu_ghz = quick_stats.overallCpuUsage / 1000 if quick_stats.overallCpuUsage else 0
+                        total_ram_gb = hardware.memorySize / (1024 ** 3)
+                        used_ram_gb = quick_stats.overallMemoryUsage / 1024 if quick_stats.overallMemoryUsage else 0
+                        free_disk_gb = sum(ds.summary.freeSpace for ds in host.datastore) / (1024 ** 3)
+
+                        host_info = {
+                            "Host": summary.config.name,
+                            "Cluster": cluster.name,
+                            "Available CPU (GHz)": round(total_cpu_ghz - used_cpu_ghz, 1),
+                            "Available RAM (GB)": round(total_ram_gb - used_ram_gb, 1),
+                            "Available Disk (GB)": round(free_disk_gb, 1)
+                        }
+                        host_data.append(host_info)
+    return host_data
+
+# ------------------- Routes ------------------- #
+
+@clone_bp.route('/clone')
+def clone_dashboard():
+    return render_template("clone_dashboard.html")
+
+@clone_bp.route('/get_host_resources', methods=['GET'])
+def get_host_resources():
+    si = connect_vsphere_from_session(session)  # ✅ pass session
+    if si:
+        try:
+            hosts = fetch_host_resources(si)
+            return jsonify(hosts)
+        except Exception as e:
+            return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+    return jsonify({"error": "Failed to connect to vSphere"}), 500
+
+
+@clone_bp.route('/get_configured_vms', methods=['GET'])
+def get_configured_vms():
+    try:
+        with open('vm_config.json', 'r') as f:
+            return jsonify(json.load(f))
+    except:
+        return jsonify([])
+
+@clone_bp.route('/get_finalized_vms', methods=['GET'])
+def get_finalized_vms():
+    try:
+        with open('vm_spec.json', 'r') as f:
+            return jsonify(json.load(f))
+    except:
+        return jsonify([])
+
+@clone_bp.route('/submit', methods=['POST'])
+def submit():
+    data = {
+        "NameVM": request.form['NameVM'],
+        "SourceVM": request.form['SourceVM'],
+        "Count": int(request.form['Count']),
+        "CPU": int(request.form['CPU']),
+        "RAM": int(request.form['RAM']),
+        "Disk": int(request.form['Disk']),
+        "Datastore": request.form['Datastore'],
+        "Network": request.form['Network'],
+        "IPList": request.form['IPList'].split(','),
+        "DNS": request.form['DNS'].split(','),
+        "SubnetMask": request.form['SubnetMask'],
+        "Gateway": request.form['Gateway']
+    }
+
+    try:
+        existing_configs = []
+        if os.path.exists('vm_config.json'):
+            with open('vm_config.json', 'r') as f:
+                existing_configs = json.load(f)
+        existing_configs.append(data)
+        with open('vm_config.json', 'w') as f:
+            json.dump(existing_configs, f, indent=4)
+        return jsonify({"message": "VM configuration added successfully"})
+    except Exception as e:
+        return jsonify({"message": "Failed to save configuration", "error": str(e)}), 500
+
+@clone_bp.route('/remove_vm/<int:index>', methods=['POST'])
+def remove_vm(index):
+    try:
+        with open('vm_config.json', 'r') as f:
+            vm_configs = json.load(f)
+        if 0 <= index < len(vm_configs):
+            vm_configs.pop(index)
+            with open('vm_config.json', 'w') as f:
+                json.dump(vm_configs, f, indent=4)
+            return jsonify({"message": "VM removed successfully"})
+        return jsonify({"message": "Invalid index"}), 400
+    except Exception as e:
+        return jsonify({"message": "An error occurred", "error": str(e)}), 500
+
+@clone_bp.route('/clear_all', methods=['POST'])
+def clear_all():
+    try:
+        with open('vm_config.json', 'w') as f:
+            json.dump([], f, indent=4)
+        return jsonify({"message": "All VM configurations cleared successfully"})
+    except Exception as e:
+        return jsonify({"message": "An error occurred", "error": str(e)}), 500
+
+@clone_bp.route('/finalize', methods=['POST'])
+def finalize():
+    try:
+        generate_vm_spec('vm_config.json', 'vm_spec.json')
+        return jsonify({"message": "VM specifications finalized and saved."})
+    except Exception as e:
+        return jsonify({"message": "An error occurred", "error": str(e)}), 500
+
+
+@clone_bp.route('/create', methods=['POST'])
+def create():
+    try:
+        session_id = session.get('session_id')
+        if not session_id:
+            return jsonify({"message": "Not logged in or session expired"}), 401
+
+        # Optionally, accept a config file or JSON payload here instead
+        results = deploy_vms_from_config(session_id)
+
+        if isinstance(results, dict) and "error" in results:
+            return jsonify({"message": "Deployment failed", "error": results["error"]}), 400
+
+        return jsonify({
+            "message": "VM deployment started",
+            "results": results
+        }), 200
+
+    except Exception as e:
+        return jsonify({"message": "Unexpected error", "error": str(e)}), 500
+
+# ------------------- Helper ------------------- #
+
+def generate_vm_spec(config_file, output_file):
+    with open(config_file, "r") as f:
+        vm_configs = json.load(f)
+
+    new_vm_specs = []
+    for vm_config in vm_configs:
+        base_name = vm_config["NameVM"]
+        ip_list = vm_config["IPList"]
+        count = vm_config["Count"]
+
+        for i in range(count):
+            name = base_name if count == 1 else f"{base_name}-{i+1}"
+            ip = ip_list[i] if i < len(ip_list) else ""
+            new_vm = {
+                "NameVM": name,
+                "CPU": vm_config["CPU"],
+                "RAM": vm_config["RAM"],
+                "Disk": vm_config["Disk"],
+                "SourceVM": vm_config["SourceVM"],
+                "Datastore": vm_config["Datastore"],
+                "Network": vm_config["Network"],
+                "IP": ip,
+                "SubnetMask": vm_config["SubnetMask"],
+                "Gateway": vm_config["Gateway"],
+                "DNS": vm_config["DNS"]
+            }
+            new_vm_specs.append(new_vm)
+
+    with open(output_file, "w") as outfile:
+        json.dump(new_vm_specs, outfile, indent=4)

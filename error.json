@@ -1,0 +1,122 @@
+[
+  {
+    "timestamp": "2025-05-13 03:54:22",
+    "user": "tungdv@lapbd.lab",
+    "error": "Zabbix deletion failed: Zabbix host 'tungdv-Cent8.5' not found.",
+    "context": "VM: tungdv-Cent8.5"
+  },
+  {
+    "timestamp": "2025-05-13 03:41:47",
+    "user": "tungdv@lapbd.lab",
+    "error": "(vim.fault.NotAuthenticated) {\n   dynamicType = <unset>,\n   dynamicProperty = (vmodl.DynamicProperty) [],\n   msg = 'The session is not authenticated.',\n   faultCause = <unset>,\n   faultMessage = (vmodl.LocalizableMessage) [],\n   object = 'vim.Folder:group-d1',\n   privilegeId = 'System.View',\n   missingPrivileges = (vim.fault.NoPermission.EntityPrivileges) []\n}",
+    "context": "VM: tungdv-Cent8.5"
+  },
+  {
+    "timestamp": "2025-05-13 03:41:36",
+    "user": "tungdv@lapbd.lab",
+    "error": "(vim.fault.NotAuthenticated) {\n   dynamicType = <unset>,\n   dynamicProperty = (vmodl.DynamicProperty) [],\n   msg = 'The session is not authenticated.',\n   faultCause = <unset>,\n   faultMessage = (vmodl.LocalizableMessage) [],\n   object = 'vim.Folder:group-d1',\n   privilegeId = 'System.View',\n   missingPrivileges = (vim.fault.NoPermission.EntityPrivileges) []\n}",
+    "context": "VM: tungdv-Cent8.5"
+  },
+  {
+    "timestamp": "2025-05-07 07:07:49",
+    "user": "unknown_user",
+    "error": "Failed to establish connection to vCenter.",
+    "context": "vCenter: 192.168.10.166, Username: tungdv@vcenter.lab"
+  },
+  {
+    "timestamp": "2025-05-06 09:26:54",
+    "user": "datnd@lapbd.lab",
+    "error": "Error loading VM details: (vim.fault.NoPermission) {\n   dynamicType = <unset>,\n   dynamicProperty = (vmodl.DynamicProperty) [],\n   msg = 'Permission to perform this operation was denied.',\n   faultCause = <unset>,\n   faultMessage = (vmodl.LocalizableMessage) [],\n   object = 'vim.Network:network-3005',\n   privilegeId = 'System.Read',\n   missingPrivileges = (vim.fault.NoPermission.EntityPrivileges) []\n}",
+    "context": "MOID: vm-14145, User: datnd@lapbd.lab"
+  },
+  {
+    "timestamp": "2025-05-06 09:26:12",
+    "user": "datnd@lapbd.lab",
+    "error": "Error loading VM details: (vim.fault.NoPermission) {\n   dynamicType = <unset>,\n   dynamicProperty = (vmodl.DynamicProperty) [],\n   msg = 'Permission to perform this operation was denied.',\n   faultCause = <unset>,\n   faultMessage = (vmodl.LocalizableMessage) [],\n   object = 'vim.Network:network-3005',\n   privilegeId = 'System.Read',\n   missingPrivileges = (vim.fault.NoPermission.EntityPrivileges) []\n}",
+    "context": "MOID: vm-11332, User: datnd@lapbd.lab"
+  },
+  {
+    "timestamp": "2025-05-06 09:26:11",
+    "user": "datnd@lapbd.lab",
+    "error": "Error loading VM details: (vim.fault.NoPermission) {\n   dynamicType = <unset>,\n   dynamicProperty = (vmodl.DynamicProperty) [],\n   msg = 'Permission to perform this operation was denied.',\n   faultCause = <unset>,\n   faultMessage = (vmodl.LocalizableMessage) [],\n   object = 'vim.Network:network-3005',\n   privilegeId = 'System.Read',\n   missingPrivileges = (vim.fault.NoPermission.EntityPrivileges) []\n}",
+    "context": "MOID: vm-14145, User: datnd@lapbd.lab"
+  },
+  {
+    "timestamp": "2025-05-06 09:22:50",
+    "user": "unknown_user",
+    "error": "Failed to establish connection to vCenter.",
+    "context": "vCenter: 192.168.10.166, Username: datnd@lapbd.lab"
+  },
+  {
+    "timestamp": "2025-05-06 09:22:28",
+    "user": "unknown_user",
+    "error": "Failed to establish connection to vCenter.",
+    "context": "vCenter: 192.168.10.166, Username: datnd@lapbd.lab"
+  },
+  {
+    "timestamp": "2025-05-06 09:21:34",
+    "user": "unknown_user",
+    "error": "Failed to establish connection to vCenter.",
+    "context": "vCenter: 192.168.10.166, Username: datnd@lapbd.lab"
+  },
+  {
+    "timestamp": "2025-05-05 08:07:15",
+    "user": "thucnk@lapbd.lab",
+    "error": "Zabbix deletion failed: Zabbix host 'thucnk-Ubuntu2' not found.",
+    "context": "VM: thucnk-Ubuntu2"
+  },
+  {
+    "timestamp": "2025-04-24 08:40:22",
+    "user": "tungdv@lapbd.lab",
+    "error": "Error loading VM details: unsupported operand type(s) for /: 'str' and 'int'",
+    "context": "MOID: vm-14099, User: tungdv@lapbd.lab"
+  },
+  {
+    "timestamp": "2025-04-24 08:39:45",
+    "user": "tungdv@lapbd.lab",
+    "error": "Task failed: Unknown error",
+    "context": "VM: tungdv-clone-2"
+  },
+  {
+    "timestamp": "2025-04-23 02:26:23",
+    "user": "unknown_user",
+    "error": "Failed to establish connection to vCenter.",
+    "context": "vCenter: 192.168.10.166, Username: tungdv@lapbd.lab"
+  },
+  {
+    "timestamp": "2025-04-22 10:26:02",
+    "user": "lab1@lapbd.lab",
+    "error": "VM not found",
+    "context": "MOID: vm-14093, User: lab1@lapbd.lab"
+  },
+  {
+    "timestamp": "2025-04-22 10:26:00",
+    "user": "lab1@lapbd.lab",
+    "error": "Virtual machine not found",
+    "context": "MOID: vm-14093, User: lab1@lapbd.lab"
+  },
+  {
+    "timestamp": "2025-04-22 10:25:58",
+    "user": "lab1@lapbd.lab",
+    "error": "VM not found",
+    "context": "MOID: vm-14093, User: lab1@lapbd.lab"
+  },
+  {
+    "timestamp": "2025-04-22 10:25:58",
+    "user": "lab1@lapbd.lab",
+    "error": "VM not found",
+    "context": "MOID: vm-14093, User: lab1@lapbd.lab"
+  },
+  {
+    "timestamp": "2025-04-22 10:25:57",
+    "user": "lab1@lapbd.lab",
+    "error": "VM not found",
+    "context": "MOID: vm-14093, User: lab1@lapbd.lab"
+  },
+  {
+    "timestamp": "2025-04-22 10:25:47",
+    "user": "lab1@lapbd.lab",
+    "error": "Error performing action 'delete': (vim.fault.NoPermission) {\n   dynamicType = <unset>,\n   dynamicProperty = (vmodl.DynamicProperty) [],\n   msg = 'Permission to perform this operation was denied.',\n   faultCause = <unset>,\n   faultMessage = (vmodl.LocalizableMessage) [],\n   object = 'vim.Datacenter:datacenter-3',\n   privilegeId = 'System.Read',\n   missingPrivileges = (vim.fault.NoPermission.EntityPrivileges) []\n}",
+    "context": "User: lab1@lapbd.lab, VM: vm-14093"
+  }
+]
