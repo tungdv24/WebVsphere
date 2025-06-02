@@ -1,7 +1,7 @@
 import requests
 
-ZABBIX_URL = 'http://192.168.10.196/zabbix/api_jsonrpc.php'
-API_TOKEN = '7ec7efa7c0444f8e52058c16eea6a3534cf8f4ffc71fa90b2ff2066fa6490cae'
+ZABBIX_URL = ''
+API_TOKEN = ''
 TEMPLATES = ["Template OS Linux by Zabbix agent", "Template Module ICMP Ping"]
 GROUP_ID = '2'
 

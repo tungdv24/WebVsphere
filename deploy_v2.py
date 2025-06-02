@@ -47,10 +47,11 @@ def reconfigure_vm(vm, cpu, ram, disk):
     wait_for_task(task)
 
 def add_disk_to_vm(vm, disk_size_gb, unit_number=None):
+    from pyVmomi import vim
     spec = vim.vm.ConfigSpec()
     new_disk_kb = int(disk_size_gb) * 1024 * 1024
 
-    # Find the controller (usually SCSI)
+    # Find the SCSI controller
     controller = None
     for dev in vm.config.hardware.device:
         if isinstance(dev, vim.vm.device.VirtualSCSIController):
@@ -60,34 +61,31 @@ def add_disk_to_vm(vm, disk_size_gb, unit_number=None):
     if not controller:
         raise Exception("No SCSI controller found to attach new disk.")
 
-    # Find available unit number
-    used_unit_numbers = [dev.unitNumber for dev in vm.config.hardware.device if hasattr(dev, 'unitNumber')]
+    # Get next available unit number (skip 7)
+    used_units = [dev.unitNumber for dev in vm.config.hardware.device if hasattr(dev, 'unitNumber')]
     next_unit = 0
-    while next_unit in used_unit_numbers:
+    while next_unit in used_units or next_unit == 7:
         next_unit += 1
 
-    # Create new disk spec
+    # Define disk device with no backing config (vSAN will assign default policy)
     disk_spec = vim.vm.device.VirtualDeviceSpec()
     disk_spec.operation = vim.vm.device.VirtualDeviceSpec.Operation.add
     disk_spec.fileOperation = vim.vm.device.VirtualDeviceSpec.FileOperation.create
 
     disk = vim.vm.device.VirtualDisk()
     disk.capacityInKB = new_disk_kb
-    disk.unitNumber = next_unit if unit_number is None else unit_number
+    disk.unitNumber = unit_number if unit_number is not None else next_unit
     disk.controllerKey = controller.key
-    disk.key = -100
+    disk.key = -101
 
-    backing = vim.vm.device.VirtualDisk.FlatVer2BackingInfo()
-    backing.diskMode = 'persistent'
-    backing.thinProvisioned = True
-    disk.backing = backing
+    # Empty backing — vSAN handles this based on policy
+    disk.backing = vim.vm.device.VirtualDisk.FlatVer2BackingInfo()
 
     disk_spec.device = disk
     spec.deviceChange = [disk_spec]
 
     task = vm.ReconfigVM_Task(spec=spec)
     wait_for_task(task)
-
 
 def log_vm_deployment_to_json(user, vm_name, status="✅ Success", error_message=None):
     log_entry = {
